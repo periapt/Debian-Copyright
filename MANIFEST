@@ -1,0 +1,14 @@
+Build.PL
+Changes
+lib/Debian/Copyright.pm
+lib/Debian/Copyright/Stanza.pm
+lib/Debian/Copyright/Stanza/Files.pm
+lib/Debian/Copyright/Stanza/Header.pm
+lib/Debian/Copyright/Stanza/License.pm
+lib/Debian/Copyright/Stanza/OrSeparated.pm
+MANIFEST			This list of files
+README
+t/00-load.t
+t/manifest.t
+t/pod-coverage.t
+t/pod.t
