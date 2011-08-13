@@ -10,6 +10,8 @@ my $builder = Module::Build->new(
     dist_version_from   => 'lib/Debian/Copyright.pm',
     build_requires => {
         'Test::More' => 0,
+        'Perl6::Slurp' => 0,
+        'Test::LongString' => 0,
     },
     configure_requires => { 'Module::Build' => 0.38 },
     requires => {
