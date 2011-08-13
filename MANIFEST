@@ -18,6 +18,7 @@ t/01.basic.t
 t/data/add1
 t/data/copyright
 t/manifest.t
+t/perlcritic.t
 t/pod-coverage.t
 t/pod.t
 t/podspell.t

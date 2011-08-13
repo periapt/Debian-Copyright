@@ -40,23 +40,21 @@ replaced with underscores.
 =cut
 
 package Debian::Copyright::Stanza::Files;
-
-our $VERSION = '0.1';
-
 use strict;
-
+use warnings;
 use base qw(Debian::Copyright::Stanza);
-
 use constant fields => qw (
     Files Copyright License X_Comment
 );
+
+our $VERSION = '0.1';
 
 =head1 CONSTRUCTOR
 
 =head2 new( { field => value, ... } )
 
 Creates a new L<Debian::Copyright::Stanza::Files> object and optionally
-initializes it with the supplied data.
+initialises it with the supplied data.
 
 =head1 METHODS
 

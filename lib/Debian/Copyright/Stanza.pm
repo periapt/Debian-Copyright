@@ -31,19 +31,16 @@ L<Debian::Copyright::Stanza::License> classes.
 package Debian::Copyright::Stanza;
 
 require v5.10.0;
-
-our $VERSION = '0.1';
-
 use strict;
-
 use base qw( Class::Accessor Tie::IxHash );
-
 use Carp qw(croak);
 use Debian::Copyright::Stanza::OrSeparated;
 
+our $VERSION = '0.1';
+
 =head1 FIELDS
 
-Stanza fields are to be defined in the class method I<fields>. Tyically this
+Stanza fields are to be defined in the class method I<fields>. Typically this
 can be done like:
 
     use constant fields => qw( Foo Bar Baz );
@@ -68,7 +65,7 @@ use overload '""' => \&as_string;
 
 =head2 new( { field => value, ... } )
 
-Creates a new L<Debian::Copyright::Stanza> object and optionally initializes it
+Creates a new L<Debian::Copyright::Stanza> object and optionally initialises it
 with the supplied data. The object is hashref based and tied to L<Tie::IxHash>.
 
 You may use dashes for initial field names, but these will be converted to
@@ -181,7 +178,7 @@ sub as_string
 
 Copyright (C) 2011 Nicholas Bamber <nicholas@periapt.co.uk>
 
-This module is substanitally based upon L<Debian::Control::Stanza>.
+This module is substantially based upon L<Debian::Control::Stanza>.
 Copyright (C) 2009 Damyan Ivanov L<dmn@debian.org> [Portions]
 
 This program is free software; you can redistribute it and/or modify it under

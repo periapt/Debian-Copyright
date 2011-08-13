@@ -34,16 +34,14 @@ replaced with underscores.
 =cut
 
 package Debian::Copyright::Stanza::License;
-
-our $VERSION = '0.1';
-
 use strict;
-
+use warnings;
 use base qw(Debian::Copyright::Stanza);
-
 use constant fields => qw (
     X_Comment License 
 );
+
+our $VERSION = '0.1';
 
 =head1 CONSTRUCTOR
 
@@ -54,7 +52,7 @@ use constant fields => qw (
 =item new( { field => value, ... } )
 
 Creates a new L<Debian::Copyright::Stanza::License> object and optionally
-initializes it with the supplied data.
+initialises it with the supplied data.
 
 =back
 

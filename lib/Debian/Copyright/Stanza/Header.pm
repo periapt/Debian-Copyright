@@ -42,16 +42,14 @@ replaced with underscores.
 =cut
 
 package Debian::Copyright::Stanza::Header;
-
-our $VERSION = '0.1';
-
 use strict;
-
+use warnings;
 use base qw(Debian::Copyright::Stanza);
-
 use constant fields => qw (
     Format_Specification Maintainer Source Name X_Comment
 );
+
+our $VERSION = '0.1';
 
 =head1 CONSTRUCTOR
 
@@ -62,7 +60,7 @@ use constant fields => qw (
 =item new( { field => value, ... } )
 
 Creates a new L<Debian::Copyright::Stanza::Header> object and optionally
-initializes it with the supplied data.
+initialises it with the supplied data.
 
 =back
 

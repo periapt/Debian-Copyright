@@ -43,12 +43,11 @@ L<Debian::Copyright::Stanza::License> class.
 =cut
 
 package Debian::Copyright;
-
-our $VERSION = '0.1';
-
 use base 'Class::Accessor';
 use strict;
 use Carp;
+
+our $VERSION = '0.1';
 
 __PACKAGE__->mk_accessors(qw( _parser header files licenses ));
 
@@ -64,8 +63,8 @@ use Tie::IxHash;
 
 Constructs a new L<Debian::Copyright> instance.
 
-The C<header> field is initialized with an empty string.
-The C<files_block> and C<license_block> fields are initialized with an
+The C<header> field is initialised with an empty string.
+The C<files_block> and C<license_block> fields are initialised with an
 empty instance of L<Tie::IxHash>.
 
 =cut

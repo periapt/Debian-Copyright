@@ -1,4 +1,12 @@
 package Debian::Copyright::Stanza::OrSeparated;
+use strict;
+use warnings;
+
+use Array::Unique;
+use Text::ParseWords qw(quotewords);
+use overload
+    '""' => \&as_string,
+    'eq' => \&equals;
 
 our $VERSION = '0.1';
 
@@ -12,17 +20,7 @@ This document describes Debian::Copyright::Stanza::OrSeparated version 0.1 .
 
 =cut
 
-use strict;
-use warnings;
-
-use Array::Unique;
-use Text::ParseWords qw(quotewords);
-
-use overload
-    '""' => \&as_string,
-    'eq' => \&equals;
-
-=head1 SYNOPSYS
+=head1 SYNOPSIS
 
     my $f = Debian::Copyright::Stanza::OrSeparated->new('Artistic');
     $f->add('GPL-1+ or BSD');
@@ -42,7 +40,7 @@ fields in Files blocks, which are lists separated by 'or'.
 
 The initial values list is parsed and may contain strings that are in fact
 'or'-separated lists. These are split appropriately using L<Text::ParseWords>'
-I<quotewords> routine.
+C<quotewords> routine.
 
 =cut
 
