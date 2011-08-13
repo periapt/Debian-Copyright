@@ -9,6 +9,7 @@ lib/Debian/Copyright/Stanza/License.pm
 lib/Debian/Copyright/Stanza/OrSeparated.pm
 Makefile.PL
 MANIFEST			This list of files
+MANIFEST.SKIP
 META.json
 META.yml
 README
@@ -19,4 +20,5 @@ t/data/copyright
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
+t/podspell.t
 t/version.t
