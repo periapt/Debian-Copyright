@@ -11,11 +11,17 @@ my $builder = Module::Build->new(
     build_requires => {
         'Test::More' => 0,
     },
+    configure_requires => { 'Module::Build' => 0.38 },
     requires => {
         'perl' => 5.006,
+        'Parse::DebControl' => 0,
+        'Tie::IxHash' => 0,
+        'Array::Unique' => 0,
+        'Class::Accessor'=> 0,
     },
     add_to_cleanup      => [ 'Debian-Copyright-*' ],
     create_makefile_pl => 'traditional',
+    create_readme => 1,
 );
 
 $builder->create_build_script();

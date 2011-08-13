@@ -1,119 +1,97 @@
-package Debian::Copyright::Stanza::Files;
-
-use 5.006;
-use strict;
-use warnings;
-
 =head1 NAME
 
-Debian::Copyright::Stanza::Files - The great new Debian::Copyright::Stanza::Files!
+Debian::Copyright::Stanza::Files - Files stanza of Debian copyright file
 
 =head1 VERSION
 
-Version 0.01
-
-=cut
-
-our $VERSION = '0.01';
-
+This document describes Debian::Copyright::Stanza::Files version 0.1 .
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+    my $copy = Debian::Copyright::Stanza::Files->new(\%data);
+    print $copy;                         # auto-stringification
 
-Perhaps a little code snippet.
+=head1 DESCRIPTION
 
-    use Debian::Copyright::Stanza::Files;
+Debian::Copyright::Stanza::Files can be used for representation and
+manipulation of a C<Files:> stanza of Debian copyright files in an
+object-oriented way. Converts itself to a textual representation in string
+context.
 
-    my $foo = Debian::Copyright::Stanza::Files->new();
-    ...
+=head1 FIELDS
 
-=head1 EXPORT
+The supported fields for Files stanzas are listed below.
 
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
+Note that real copyright fields may contain dashes in their names. These are
+replaced with underscores.
 
-=head1 SUBROUTINES/METHODS
+=over
 
-=head2 function1
+=item Files
 
-=cut
+=item License
 
-sub function1 {
-}
+=item Copyright
 
-=head2 function2
-
-=cut
-
-sub function2 {
-}
-
-=head1 AUTHOR
-
-Nicholas Bamber, C<< <nicholas at periapt.co.uk> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-debian-copyright at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Debian-Copyright>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Debian::Copyright::Stanza::Files
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker (report bugs here)
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Debian-Copyright>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Debian-Copyright>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Debian-Copyright>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Debian-Copyright/>
+=item X_Comment
 
 =back
 
+=cut
 
-=head1 ACKNOWLEDGEMENTS
+package Debian::Copyright::Stanza::Files;
 
+our $VERSION = '0.1';
 
-=head1 LICENSE AND COPYRIGHT
+use strict;
 
-Copyright 2011 Nicholas Bamber.
+use base qw(Debian::Copyright::Stanza);
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; version 2 dated June, 1991 or at your option
-any later version.
+use constant fields => qw (
+    Files Copyright License X_Comment
+);
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+=head1 CONSTRUCTOR
 
-A copy of the GNU General Public License is available in the source tree;
-if not, write to the Free Software Foundation, Inc.,
-59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+=head2 new( { field => value, ... } )
 
+Creates a new L<Debian::Copyright::Stanza::Files> object and optionally
+initializes it with the supplied data.
+
+=head1 METHODS
+
+=head2 is_or_separated($field)
+
+Returns true for the C<License> field.
 
 =cut
 
-1; # End of Debian::Copyright::Stanza::Files
+sub is_or_separated {
+    my( $self, $field ) = @_;
+    return $field eq 'License';
+}
+
+
+=head1 SEE ALSO
+
+Debian::Copyright::Stanza::Files inherits most of its functionality from
+L<Debian::Copyright::Stanza>
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright (C) 2011 Nicholas Bamber L<nicholas@periapt.co.uk>
+
+This module is substantially based upon L<Debian::Control::Stanza::Source>.
+Copyright (C) 2009 Damyan Ivanov L<dmn@debian.org>
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License version 2 as published by the Free
+Software Foundation.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+
+=cut
+
+1;

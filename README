@@ -1,63 +1,70 @@
-Debian-Copyright
+NAME
+    Debian::Copyright - manage Debian copyright files
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+VERSION
+    This document describes Debian::Copyright version 0.1 .
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
+SYNOPSIS
+        my $c = Debian::Copyright->new();       # construct a new
+        $c->read($file1);                       # parse debian copyright file
+        $c->read($file2);                       # parse a second
+        $c->write($ofile);                       # write to file
 
+DESCRIPTION
+    Debian::Copyright can be used for the representation, manipulation and
+    merging of Debian copyright files in an object-oriented way. It provides
+    easy reading and writing of the debian/copyright file found in Debian
+    source packages.
 
-INSTALLATION
+FIELDS
+  header
+    An instance of Debian::Copyright::Stanza::Header class. Contains the the
+    first stanza of the copyright file. If multiple files were parsed only
+    the first will be retained.
 
-To install this module, run the following commands:
+  files
+    A hash reference (actually Tie::IxHash instance) with keys being the
+    values of the `Files' clause and values instances of
+    Debian::Copyright::Stanza::Files class.
 
-	perl Build.PL
-	./Build
-	./Build test
-	./Build install
+  licenses
+    A hash reference (actually Tie::IxHash instance) with keys being the
+    values of the `License' clause and values instances of
+    Debian::Copyright::Stanza::License class.
 
-SUPPORT AND DOCUMENTATION
+CONSTRUCTOR
+  new
+    Constructs a new Debian::Copyright instance.
 
-After installing, you can find documentation for this module with the
-perldoc command.
+    The `header' field is initialized with an empty string. The
+    `files_block' and `license_block' fields are initialized with an empty
+    instance of Tie::IxHash.
 
-    perldoc Debian::Copyright
+METHODS
+  read *file*
+    Parse debian and accessors.
 
-You can also look for information at:
+    *file* can be either a file name, an opened file handle or a string
+    scalar reference.
 
-    RT, CPAN's request tracker (report bugs here)
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=Debian-Copyright
+  write *file*
+    Writes a debian/copyright-like file in *file* with the contents defined
+    in the accessor fields.
 
-    AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/Debian-Copyright
+    *file* can be either a file name, an opened file handle or a string
+    scalar reference.
 
-    CPAN Ratings
-        http://cpanratings.perl.org/d/Debian-Copyright
+COPYRIGHT & LICENSE
+    Copyright (C) 2011 Nicholas Bamber nicholas@periapt.co.uk
 
-    Search CPAN
-        http://search.cpan.org/dist/Debian-Copyright/
+    This module was adapted from Debian::Control. Copyright (C) 2009 Damyan
+    Ivanov dmn@debian.org [Portions]
 
+    This program is free software; you can redistribute it and/or modify it
+    under the terms of the GNU General Public License version 2 as published
+    by the Free Software Foundation.
 
-LICENSE AND COPYRIGHT
-
-Copyright (C) 2011 Nicholas Bamber
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; version 2 dated June, 1991 or at your option
-any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-A copy of the GNU General Public License is available in the source tree;
-if not, write to the Free Software Foundation, Inc.,
-59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+    This program is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 

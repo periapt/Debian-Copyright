@@ -1,119 +1,197 @@
-package Debian::Copyright::Stanza;
-
-use 5.006;
-use strict;
-use warnings;
-
 =head1 NAME
 
-Debian::Copyright::Stanza - The great new Debian::Copyright::Stanza!
+Debian::Copyright::Stanza - single stanza of Debian copyright file
 
 =head1 VERSION
 
-Version 0.01
-
-=cut
-
-our $VERSION = '0.01';
-
+This document describes Debian::Copyright::Stanza version 0.1 .
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
+    package Header;
+    use base 'Debian::Copyright::Stanza';
+    use constant fields => qw(
+        Format_Specification
+        Name
+        Source
+        Maintainer
+        X_Comment
+    );
 
-Perhaps a little code snippet.
+    1;
 
-    use Debian::Copyright::Stanza;
+=head1 DESCRIPTION
 
-    my $foo = Debian::Copyright::Stanza->new();
-    ...
-
-=head1 EXPORT
-
-A list of functions that can be exported.  You can delete this section
-if you don't export anything, such as for a purely object-oriented module.
-
-=head1 SUBROUTINES/METHODS
-
-=head2 function1
+Debian::Copyright::Stanza is the base class for
+L<Debian::Copyright::Stanza::Header>, L<Debian::Copyright::Stanza::Files> and
+L<Debian::Copyright::Stanza::License> classes.
 
 =cut
 
-sub function1 {
+package Debian::Copyright::Stanza;
+
+require v5.10.0;
+
+our $VERSION = '0.1';
+
+use strict;
+
+use base qw( Class::Accessor Tie::IxHash );
+
+use Carp qw(croak);
+use Debian::Copyright::Stanza::OrSeparated;
+
+=head1 FIELDS
+
+Stanza fields are to be defined in the class method I<fields>. Tyically this
+can be done like:
+
+    use constant fields => qw( Foo Bar Baz );
+
+Fields that are to contain dependency lists (as per L</is_dependency_list>
+method below) are automatically converted to instances of the
+L<Debian::Dependencies> class.
+
+=cut
+
+use constant fields => ();
+
+sub import {
+    my( $class ) = @_;
+
+    $class->mk_accessors( $class->fields );
 }
 
-=head2 function2
+use overload '""' => \&as_string;
+
+=head1 CONSTRUCTOR
+
+=head2 new( { field => value, ... } )
+
+Creates a new L<Debian::Copyright::Stanza> object and optionally initializes it
+with the supplied data. The object is hashref based and tied to L<Tie::IxHash>.
+
+You may use dashes for initial field names, but these will be converted to
+underscores:
+
+    my $s = Debian::Copyright::Stanza::Header( {Name => "Blah"} );
+    print $s->Name;
 
 =cut
 
-sub function2 {
+sub new {
+    my $class = shift;
+    my $init = shift || {};
+
+    my $self = Tie::IxHash->new;
+
+    bless $self, $class;
+
+    while( my($k,$v) = each %$init ) {
+        $k =~ s/-/_/g;
+        $self->can($k)
+            or croak "Invalid field given ($k)";
+        if ( $self->is_or_separated($k) ) {
+            $self->$k( Debian::Copyright::Stanza::OrSeparated->new( $v ) );
+        }
+        else {
+            $self->$k($v);
+        }
+    }
+
+    return $self;
 }
 
-=head1 AUTHOR
+=head1 METHODS
 
-Nicholas Bamber, C<< <nicholas at periapt.co.uk> >>
+=head2 is_or_separated($field)
 
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-debian-copyright at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Debian-Copyright>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Debian::Copyright::Stanza
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker (report bugs here)
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Debian-Copyright>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Debian-Copyright>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Debian-Copyright>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Debian-Copyright/>
-
-=back
-
-
-=head1 ACKNOWLEDGEMENTS
-
-
-=head1 LICENSE AND COPYRIGHT
-
-Copyright 2011 Nicholas Bamber.
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; version 2 dated June, 1991 or at your option
-any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-A copy of the GNU General Public License is available in the source tree;
-if not, write to the Free Software Foundation, Inc.,
-59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-
+Returns true if the given field is to contain a 'or'-separated list of values.
+This is used in stringification, when considering where to wrap long lines.
 
 =cut
 
-1; # End of Debian::Copyright::Stanza
+sub is_or_separated {
+    my( $self, $field ) = @_;
+    return 0;
+}
+
+=head2 get($field)
+
+Overrides the default get method from L<Class::Accessor> with L<Tie::IxHash>'s
+FETCH.
+
+=cut
+
+sub get {
+    my( $self, $field ) = @_;
+
+    $field =~ s/_/-/g;
+
+    return $self->FETCH($field);
+}
+
+=head2 set( $field, $value )
+
+Overrides the default set method from L<Class::Accessor> with L<Tie::IxHash>'s
+STORE. 
+
+=cut
+
+sub set {
+    my( $self, $field, $value ) = @_;
+
+    chomp($value);
+
+    $field =~ s/_/-/g;
+
+    return $self->STORE( $field,  $value );
+}
+
+=head2 as_string([$width])
+
+Returns a string representation of the object. Ready to be printed into a
+real F<debian/copyright> file. Used as a stringification operator.
+
+=cut
+
+sub as_string
+{
+    my ( $self, $width ) = @_;
+    $width //= 80;
+
+    my @lines;
+
+    $self->Reorder( map{ ( my $s = $_ ) =~ s/_/-/g; $s } $self->fields );
+
+    for my $k ( $self->Keys ) {
+        # We don't' want the internal fields showing in the output
+        next if $k =~ /^-/;     # _ in field names is replaced with dashes
+        my $v = $self->FETCH($k);
+        next unless defined($v);
+
+        my $line = "$k: $v";
+        push @lines, $line if $line;
+    }
+
+    return join( "\n", @lines ) . "\n";
+}
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright (C) 2011 Nicholas Bamber <nicholas@periapt.co.uk>
+
+This module is substanitally based upon L<Debian::Control::Stanza>.
+Copyright (C) 2009 Damyan Ivanov L<dmn@debian.org> [Portions]
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License version 2 as published by the Free
+Software Foundation.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+
+=cut
+
+1;
