@@ -24,6 +24,12 @@ my $builder = Module::Build->new(
     add_to_cleanup      => [ 'Debian-Copyright-*' ],
     create_makefile_pl => 'traditional',
     create_readme => 1,
+    meta_merge => {
+        resources => {
+            repository =>
+'http://github.com/periapt/Debian-Copyright/tree',
+        },
+    },
 );
 
 $builder->create_build_script();
