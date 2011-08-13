@@ -22,4 +22,5 @@ t/perlcritic.t
 t/pod-coverage.t
 t/pod.t
 t/podspell.t
+t/prereq.t
 t/version.t
