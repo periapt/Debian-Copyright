@@ -169,6 +169,20 @@ sub write {
     }
 }
 
+=head1 LIMITATIONS
+
+=over
+
+=item This module is written with one particular version of
+L<DEP-5|http://anonscm.debian.org/viewvc/dep/web/deps/dep5.mdwn?view=markup&pathrev=135>
+in mind. When required it should be easy to add support for extra versions,
+but at the moment the supported version is the one generally used in the
+Debian Perl Group.
+
+=item Test coverage is not yet complete.
+
+=back
+
 =head1 COPYRIGHT & LICENSE
 
 Copyright (C) 2011 Nicholas Bamber L<nicholas@periapt.co.uk>

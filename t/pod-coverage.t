@@ -1,4 +1,4 @@
-#!perl -T
+#!perl
 
 if ( not $ENV{TEST_AUTHOR} ) {
     my $msg = 'Author test.  Set $ENV{TEST_AUTHOR} to a true value to run.';

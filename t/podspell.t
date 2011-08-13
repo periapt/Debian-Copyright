@@ -55,7 +55,7 @@ Test::Spelling::add_stopwords(qw(   Ivanov
                                     prerun
                                     pre
                                     callback
-                                    callbacks
+                                    DEP
                                     checkbox
                                     customize
                                     customized

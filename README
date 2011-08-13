@@ -36,8 +36,8 @@ CONSTRUCTOR
   new
     Constructs a new Debian::Copyright instance.
 
-    The `header' field is initialized with an empty string. The
-    `files_block' and `license_block' fields are initialized with an empty
+    The `header' field is initialised with an empty string. The
+    `files_block' and `license_block' fields are initialised with an empty
     instance of Tie::IxHash.
 
 METHODS
