@@ -4,7 +4,7 @@ Debian::Copyright::Stanza::Header - header stanza of Debian copyright file
 
 =head1 VERSION
 
-This document describes Debian::Copyright::Stanza::Header version 0.1 .
+This document describes Debian::Copyright::Stanza::Header version 0.2 .
 
 =head1 SYNOPSIS
 
@@ -49,7 +49,7 @@ use constant fields => qw (
     Format_Specification Maintainer Source Name X_Comment
 );
 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 =head1 CONSTRUCTOR
 

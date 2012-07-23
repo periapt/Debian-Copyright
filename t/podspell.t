@@ -19,31 +19,17 @@ Test::Spelling::add_stopwords(qw(   Ivanov
                                     Damyan
                                     CPAN
                                     Bamber
-                                    Cees
-                                    Hek
                                     github
                                     AnnoCPAN
                                     RT
                                     API
-                                    SiteSuite
                                     crypted
-                                    SHA
-                                    CRC
-                                    DBD
-                                    DBH
-                                    SQL
-                                    DBI
-                                    username
-                                    usernames
-                                    CALLBACKS
-                                    CALLBACKS
                                     HTML
-                                    LDAP
-                                    RUNMODES
                                     TODO
                                     URL
+                                    dh
+                                    Plessy
                                     CAPAUTHTOKEN
-                                    webserver
                                     Hardcode
                                     hardcode
                                     everytime

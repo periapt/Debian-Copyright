@@ -4,21 +4,30 @@ Debian::Copyright - manage Debian copyright files
 
 =head1 VERSION
 
-This document describes Debian::Copyright version 0.1 .
+This document describes Debian::Copyright version 0.2 .
 
 =head1 SYNOPSIS
 
     my $c = Debian::Copyright->new();       # construct a new
     $c->read($file1);                       # parse debian copyright file
     $c->read($file2);                       # parse a second
-    $c->write($ofile);                       # write to file
+    $c->write($ofile);                      # write to file
 
 =head1 DESCRIPTION
 
 Debian::Copyright can be used for the representation, manipulation and
 merging of Debian copyright files in an object-oriented way. It provides easy
 reading and writing of the F<debian/copyright> file found in Debian source
-packages.
+packages. Debian has recently started standardising its copyright files
+around the machine-readable
+L<DEP-5/Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/>
+format. 
+
+=head2 note on terminology
+
+The term "Stanza" derives from the
+L<dh-make-perl|http://packages.debian.org/sid/dh-make-perl> tool. The official
+term would now be "Paragraph". For the purposes of discussing the DEP-5 format the terms are used interchangeably in this documentation.
 
 =head1 FIELDS
 
@@ -47,7 +56,7 @@ use base 'Class::Accessor';
 use strict;
 use Carp;
 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 __PACKAGE__->mk_accessors(qw( _parser header files licenses ));
 
@@ -182,6 +191,10 @@ Debian Perl Group.
 =item Test coverage is not yet complete.
 
 =back
+
+=head1 ACKNOWLEDGEMENTS
+
+Thanks to Charles Plessy for various comments regarding the documentation.
 
 =head1 COPYRIGHT & LICENSE
 

@@ -4,7 +4,7 @@ Debian::Copyright::Stanza - single stanza of Debian copyright file
 
 =head1 VERSION
 
-This document describes Debian::Copyright::Stanza version 0.1 .
+This document describes Debian::Copyright::Stanza version 0.2 .
 
 =head1 SYNOPSIS
 
@@ -36,7 +36,7 @@ use base qw( Class::Accessor Tie::IxHash );
 use Carp qw(croak);
 use Debian::Copyright::Stanza::OrSeparated;
 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 =head1 FIELDS
 

@@ -4,7 +4,7 @@ Debian::Copyright::Stanza::License - License stanza of Debian copyright file
 
 =head1 VERSION
 
-This document describes Debian::Copyright::Stanza::License version 0.1 .
+This document describes Debian::Copyright::Stanza::License version 0.2 .
 
 =head1 SYNOPSIS
 
@@ -41,7 +41,7 @@ use constant fields => qw (
     X_Comment License 
 );
 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 =head1 CONSTRUCTOR
 

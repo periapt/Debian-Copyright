@@ -8,7 +8,7 @@ use overload
     '""' => \&as_string,
     'eq' => \&equals;
 
-our $VERSION = '0.1';
+our $VERSION = '0.2';
 
 =head1 NAME
 
@@ -16,7 +16,7 @@ Debian::Copyright::Stanza::OrSeparated - 'or' separated field abstraction
 
 =head1 VERSION
 
-This document describes Debian::Copyright::Stanza::OrSeparated version 0.1 .
+This document describes Debian::Copyright::Stanza::OrSeparated version 0.2 .
 
 =cut
 
