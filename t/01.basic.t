@@ -1,4 +1,4 @@
-use Test::More tests => 34;
+use Test::More tests => 36;
 
 use Debian::Copyright;
 
@@ -65,5 +65,10 @@ is($copyright->licenses->Keys(2), 'BSD', 'key licenses(2)');
 
 my $copyright3 = Debian::Copyright->new;
 isa_ok($copyright3, 'Debian::Copyright');
-dies_ok { $copyright3->read('t/data/invalid') } qr/Invalid field given (Blah)/;
+throws_ok { $copyright3->read('t/data/invalid') } qr/Invalid field given \(Blah\)/;
+
+my $copyright4 = Debian::Copyright->new;
+isa_ok($copyright4, 'Debian::Copyright');
+throws_ok { $copyright4->read('t/data/invalid2') } qr/Got copyright stanza with unrecognised field/;
+
 
