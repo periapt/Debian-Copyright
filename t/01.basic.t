@@ -1,4 +1,4 @@
-use Test::More tests => 32;
+use Test::More tests => 34;
 
 use Debian::Copyright;
 
@@ -6,6 +6,7 @@ use Debian::Copyright;
 use Perl6::Slurp;
 use Test::LongString; 
 use Test::Deep;
+use Test::Exception;
 
 my $copyright = Debian::Copyright->new;
 isa_ok($copyright, 'Debian::Copyright');
@@ -61,4 +62,8 @@ like($copyright->licenses->Values(0)->License, qr/\AArtistic\s+This\sprogram/xms
 is($copyright->files->Keys(2), 'test/*', 'key files(2)');
 is($copyright->files->Values(2)->Files, 'test/*', 'files(2)->Files');
 is($copyright->licenses->Keys(2), 'BSD', 'key licenses(2)');
+
+my $copyright3 = Debian::Copyright->new;
+isa_ok($copyright3, 'Debian::Copyright');
+dies_ok { $copyright3->read('t/data/invalid') } qr/Invalid field given (Blah)/;
 
