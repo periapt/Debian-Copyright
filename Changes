@@ -2,6 +2,7 @@ Revision history for Debian-Copyright
 
 0.2    23-07-2012
         Used comments from Charles Plessy, Closes: #70544
+        Worked through some of the missing test coverage
 
 0.1    Date/time
         First version, released on an unsuspecting world.

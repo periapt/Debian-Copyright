@@ -1,10 +1,11 @@
-use Test::More tests => 30;
+use Test::More tests => 32;
 
 use Debian::Copyright;
 
 # replace by Test::File::Contents?
 use Perl6::Slurp;
 use Test::LongString; 
+use Test::Deep;
 
 my $copyright = Debian::Copyright->new;
 isa_ok($copyright, 'Debian::Copyright');
@@ -33,6 +34,11 @@ my $data = undef;
 $copyright->write(\$data);
 is_string($data, $contents, "file contents");
 
+my $copyright2 = Debian::Copyright->new;
+isa_ok($copyright2, 'Debian::Copyright');
+$copyright2->read(\$contents);
+cmp_deeply($copyright, $copyright2, "file versus string");
+
 $copyright->read('t/data/add1');
 $copyright->write(\$data);
 is($copyright->files->Length, 3, 'files length');
@@ -55,5 +61,4 @@ like($copyright->licenses->Values(0)->License, qr/\AArtistic\s+This\sprogram/xms
 is($copyright->files->Keys(2), 'test/*', 'key files(2)');
 is($copyright->files->Values(2)->Files, 'test/*', 'files(2)->Files');
 is($copyright->licenses->Keys(2), 'BSD', 'key licenses(2)');
-
 
