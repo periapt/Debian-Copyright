@@ -176,7 +176,7 @@ sub as_string
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (C) 2011 Nicholas Bamber <nicholas@periapt.co.uk>
+Copyright (C) 2011-12 Nicholas Bamber <nicholas@periapt.co.uk>
 
 This module is substantially based upon L<Debian::Control::Stanza>.
 Copyright (C) 2009 Damyan Ivanov L<dmn@debian.org> [Portions]

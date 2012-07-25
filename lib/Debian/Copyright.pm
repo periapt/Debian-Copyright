@@ -198,7 +198,7 @@ Thanks to Charles Plessy for various comments regarding the documentation.
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (C) 2011 Nicholas Bamber L<nicholas@periapt.co.uk>
+Copyright (C) 2011-2012 Nicholas Bamber L<nicholas@periapt.co.uk>
 
 This module was adapted from L<Debian::Control>.
 Copyright (C) 2009 Damyan Ivanov L<dmn@debian.org> [Portions]

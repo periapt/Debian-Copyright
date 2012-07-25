@@ -17,6 +17,8 @@ t/00.load.t
 t/01.basic.t
 t/data/add1
 t/data/copyright
+t/data/invalid
+t/data/invalid2
 t/manifest.t
 t/perlcritic.t
 t/pod-coverage.t
