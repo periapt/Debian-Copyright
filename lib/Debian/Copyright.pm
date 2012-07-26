@@ -113,20 +113,27 @@ sub read {
         $parser_method = 'parse_mem';
     }
 
+    my $f_spec = $self->header
+               ? $self->header->Format_Specification
+               : undef;
+
     my $stanzas = $self->_parser->$parser_method( $file,
         { useTieIxHash => 1, verbMultiLine => 1 } );
 
-    for (@$stanzas) {
-        if ( $_->{'Format-Specification'}) {
-            if (! $self->header) {
-                $self->header( Debian::Copyright::Stanza::Header->new($_) );
-            }
-        }
-        elsif ( $_->{Files} ) {
+    if ($stanzas->[0]->{'Format-Specification'} and not $f_spec) {
+        my $header = shift @$stanzas;
+        $self->header( Debian::Copyright::Stanza::Header->new($header) );
+        $f_spec = $self->header->Format_Specification;
+    }
+
+    for (@$stanzas) {  
+        next if $_->{'Format-Specification'};
+        if ( $_->{Files} ) {
             $self->files->Push(
-                $_->{Files} => Debian::Copyright::Stanza::Files->new($_) );
+                $_->{Files} => Debian::Copyright::Stanza::Files->new($_, $f_spec) );
+            next;
         }
-        elsif ( $_->{License} ) {
+        if ( $_->{License} ) {
             my $license = $_->{License};
             if ($license =~ m{\A([^\n]+)$}xms) {
                 $license = $1;
@@ -135,11 +142,10 @@ sub read {
                 croak "License stanza does not make sense";
             }
             $self->licenses->Push(
-                $license => Debian::Copyright::Stanza::License->new($_) );
+                $license => Debian::Copyright::Stanza::License->new($_, $f_spec) );
+            next;
         }
-        else {
-            die "Got copyright stanza with unrecognised field\n";
-        }
+        die "Got copyright stanza with unrecognised field\n";
     }
     return;
 }
