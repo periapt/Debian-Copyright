@@ -13,7 +13,7 @@ which fields are supported in which versions of the
 L<DEP-5/Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/>
 specification.
 
-=end
+=cut
 
 package Debian::Copyright::Format;
 
@@ -23,9 +23,9 @@ use constant {
     SPECIFICATION => {
         'http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/' => {
             Header => [
-                'Format-Specification',
-                'Upstream-Contact',
-                'Upstream-Name',
+                'Format_Specification',
+                'Upstream_Contact',
+                'Upstream_Name',
                 'Source',
                 'Comment',
             ],
@@ -42,41 +42,35 @@ use constant {
         },
         'http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135' => {
             Header => [
-                'Format-Specification',
+                'Format_Specification',
                 'Maintainer',
                 'Name',
                 'Source',
-                'X-Comment',
+                'X_Comment',
             ],
             Files => [
                 'Files',
                 'Copyright',
                 'License',
-                'X-Comment',
+                'X_Comment',
             ],
             License => [
                 'License',
-                'X-Comment',
+                'X_Comment',
             ],
         },
     }
-}
-use Carp;
+};
 
 our $VERSION = '0.2';
 
-=head1 COPYRIGHT & LICENSE
-
-Copyright (C) 2011-2012 Nicholas Bamber L<nicholas@periapt.co.uk>
-
-This program is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public License version 2 as published by the Free
-Software Foundation.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.
-
-=cut
+sub getFields {
+    my $type = shift;
+    my %fields = ();
+    foreach my $spec (keys %{SPECIFICATION()}) {
+        %fields = (%fields, map {$_=>1} @{SPECIFICATION()->{$spec}->{$type}});
+    }
+    return keys %fields;
+}
 
 1;

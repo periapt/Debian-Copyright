@@ -35,6 +35,7 @@ use strict;
 use base qw( Class::Accessor Tie::IxHash );
 use Carp qw(croak);
 use Debian::Copyright::Stanza::OrSeparated;
+use Debian::Copyright::Format;
 
 our $VERSION = '0.2';
 
@@ -152,6 +153,23 @@ real F<debian/copyright> file. Used as a stringification operator.
 
 =cut
 
+my %temp_order = (
+    Format_Specification => 0,
+    Maintainer => 1,
+    Source=>2,
+    Name=>3,
+    Files => 4,
+    Copyright => 5,
+    License => 6,
+);
+sub temp_order_fn {
+    return 0 if $a eq $b;
+    return -1 if exists $temp_order{$a} and not exists $temp_order{$b};
+    return +1 if exists $temp_order{$b} and not exists $temp_order{$a};
+    return $temp_order{$a} <=> $temp_order{$b} if exists $temp_order{$a} and exists $temp_order{$b};
+    return $a cmp $b;
+}
+
 sub as_string
 {
     my ( $self, $width ) = @_;
@@ -159,7 +177,7 @@ sub as_string
 
     my @lines;
 
-    $self->Reorder( map{ ( my $s = $_ ) =~ s/_/-/g; $s } $self->fields );
+    $self->Reorder( map{ ( my $s = $_ ) =~ s/_/-/g; $s } sort {temp_order_fn($a,$b)} $self->fields );
 
     for my $k ( $self->Keys ) {
         # We don't' want the internal fields showing in the output

@@ -45,9 +45,16 @@ package Debian::Copyright::Stanza::Header;
 use strict;
 use warnings;
 use base qw(Debian::Copyright::Stanza);
-use constant fields => qw (
-    Format_Specification Maintainer Source Name X_Comment
-);
+
+#my @fields;
+#BEGIN {
+#    use Debian::Copyright::Format;
+#    @fields = Debian::Copyright::Format::getFields('Header');
+#}
+#use constant fields => @fields;
+
+use Debian::Copyright::Format;
+use constant fields => Debian::Copyright::Format::getFields('Header');
 
 our $VERSION = '0.2';
 
