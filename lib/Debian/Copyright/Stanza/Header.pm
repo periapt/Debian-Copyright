@@ -52,9 +52,10 @@ use base qw(Debian::Copyright::Stanza);
 #    @fields = Debian::Copyright::Format::getFields('Header');
 #}
 #use constant fields => @fields;
-
-use Debian::Copyright::Format;
-use constant fields => Debian::Copyright::Format::getFields('Header');
+#
+#use Debian::Copyright::Format;
+#use constant fields => Debian::Copyright::Format::getFields('Header');
+use constant type => 'Header';
 
 our $VERSION = '0.2';
 

@@ -19,6 +19,8 @@ package Debian::Copyright::Format;
 
 use strict;
 use warnings;
+use base qw(Exporter);
+our @EXPORT = qw(SPECIFICATION); 
 use constant {
     SPECIFICATION => {
         'http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/' => {
@@ -44,8 +46,8 @@ use constant {
             Header => [
                 'Format_Specification',
                 'Maintainer',
-                'Name',
                 'Source',
+                'Name',
                 'X_Comment',
             ],
             Files => [
@@ -64,13 +66,13 @@ use constant {
 
 our $VERSION = '0.2';
 
-sub getFields {
-    my $type = shift;
-    my %fields = ();
-    foreach my $spec (keys %{SPECIFICATION()}) {
-        %fields = (%fields, map {$_=>1} @{SPECIFICATION()->{$spec}->{$type}});
-    }
-    return keys %fields;
-}
+#sub getFields {
+#    my $type = shift;
+#    my %fields = ();
+#    foreach my $spec (keys %{SPECIFICATION()}) {
+#        %fields = (%fields, map {$_=>1} @{SPECIFICATION()->{$spec}->{$type}});
+#    }
+#    return keys %fields;
+#}
 
 1;

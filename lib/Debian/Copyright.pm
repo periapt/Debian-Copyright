@@ -122,8 +122,8 @@ sub read {
 
     if ($stanzas->[0]->{'Format-Specification'} and not $f_spec) {
         my $header = shift @$stanzas;
-        $self->header( Debian::Copyright::Stanza::Header->new($header) );
-        $f_spec = $self->header->Format_Specification;
+        $f_spec = $header->{'Format-Specification'};
+        $self->header( Debian::Copyright::Stanza::Header->new($header, $f_spec) );
     }
 
     for (@$stanzas) {  

@@ -52,12 +52,29 @@ L<Debian::Dependencies> class.
 
 =cut
 
-use constant fields => ();
+use constant type => undef;
+
+sub fields {
+    my $class = my $self = shift;
+    if (ref $self) {
+        $class = ref $self;
+    }
+    my $type = (reverse split '::', $class)[0];
+
+    if (ref $self and $self->_f_spec) {
+        return @{SPECIFICATION()->{$self->_f_spec}->{$type}};
+    }
+    my %fields = ();
+    foreach my $spec (keys %{SPECIFICATION()}) {
+        %fields = (%fields, map {$_=>1} @{SPECIFICATION()->{$spec}->{$type}});
+    }
+    return keys %fields;
+}
 
 sub import {
     my( $class ) = @_;
 
-    $class->mk_accessors( $class->fields );
+    $class->mk_accessors( '_f_spec', $class->fields );
 }
 
 use overload '""' => \&as_string;
@@ -71,7 +88,7 @@ with the supplied data. The object is hashref based and tied to L<Tie::IxHash>.
 
 You may use dashes for initial field names, but these will be converted to
 underscores:
-
+;
     my $s = Debian::Copyright::Stanza::Header( {Name => "Blah"} );
     print $s->Name;
 
@@ -85,10 +102,13 @@ sub new {
 
     bless $self, $class;
 
+    my $f_spec = shift || croak "No Format-Specification";
+    $self->_f_spec($f_spec);
+
     while( my($k,$v) = each %$init ) {
         $k =~ s/-/_/g;
-        $self->can($k)
-            or croak "Invalid field given ($k)";
+        croak "Invalid field given ($k)" if not $self->can($k);
+        croak "$k not valid for $f_spec" if not grep {$k} $self->fields;
         if ( $self->is_or_separated($k) ) {
             $self->$k( Debian::Copyright::Stanza::OrSeparated->new( $v ) );
         }
@@ -153,35 +173,15 @@ real F<debian/copyright> file. Used as a stringification operator.
 
 =cut
 
-my %temp_order = (
-    Format_Specification => 0,
-    Maintainer => 1,
-    Source=>2,
-    Name=>3,
-    Files => 4,
-    Copyright => 5,
-    License => 6,
-);
-sub temp_order_fn {
-    return 0 if $a eq $b;
-    return -1 if exists $temp_order{$a} and not exists $temp_order{$b};
-    return +1 if exists $temp_order{$b} and not exists $temp_order{$a};
-    return $temp_order{$a} <=> $temp_order{$b} if exists $temp_order{$a} and exists $temp_order{$b};
-    return $a cmp $b;
-}
-
 sub as_string
 {
     my ( $self, $width ) = @_;
     $width //= 80;
 
     my @lines;
+    my @fields = map{ ( my $s = $_ ) =~ s/_/-/g; $s } $self->fields;
 
-    $self->Reorder( map{ ( my $s = $_ ) =~ s/_/-/g; $s } sort {temp_order_fn($a,$b)} $self->fields );
-
-    for my $k ( $self->Keys ) {
-        # We don't' want the internal fields showing in the output
-        next if $k =~ /^-/;     # _ in field names is replaced with dashes
+    for my $k ( @fields ) {
         my $v = $self->FETCH($k);
         next unless defined($v);
 
