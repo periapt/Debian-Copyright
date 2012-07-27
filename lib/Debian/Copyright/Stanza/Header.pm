@@ -18,27 +18,6 @@ manipulation of the header stanza of Debian copyright files in an
 object-oriented way. Converts itself to a textual representation in string
 context.
 
-=head1 FIELDS
-
-The supported fields for header stanzas are listed below.
-
-Note that real copyright fields may contain dashes in their names. These are
-replaced with underscores.
-
-=over
-
-=item Format_Specification
-
-=item Name
-
-=item X_Comment
-
-=item Maintainer
-
-=item Source
-
-=back
-
 =cut
 
 package Debian::Copyright::Stanza::Header;
@@ -46,15 +25,6 @@ use strict;
 use warnings;
 use base qw(Debian::Copyright::Stanza);
 
-#my @fields;
-#BEGIN {
-#    use Debian::Copyright::Format;
-#    @fields = Debian::Copyright::Format::getFields('Header');
-#}
-#use constant fields => @fields;
-#
-#use Debian::Copyright::Format;
-#use constant fields => Debian::Copyright::Format::getFields('Header');
 use constant type => 'Header';
 
 our $VERSION = '0.2';

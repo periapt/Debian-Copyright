@@ -35,7 +35,9 @@ term would now be "Paragraph". For the purposes of discussing the DEP-5 format t
 
 An instance of L<Debian::Copyright::Stanza::Header> class. Contains the 
 the first stanza of the copyright file. If multiple files were parsed only the
-first will be retained.
+first will be retained. The 'Format-Specification' field of this object
+determines the whole structure of the document as defined by
+L<Debian::Copyright::Format>.
 
 =head2 files
 

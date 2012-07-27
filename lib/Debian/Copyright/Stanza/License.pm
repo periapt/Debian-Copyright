@@ -37,9 +37,6 @@ package Debian::Copyright::Stanza::License;
 use strict;
 use warnings;
 use base qw(Debian::Copyright::Stanza);
-#use constant fields => qw (
-#    X_Comment License 
-#);
 use constant type => 'License';
 
 our $VERSION = '0.2';

@@ -10,13 +10,7 @@ This document describes Debian::Copyright::Stanza version 0.2 .
 
     package Header;
     use base 'Debian::Copyright::Stanza';
-    use constant fields => qw(
-        Format_Specification
-        Name
-        Source
-        Maintainer
-        X_Comment
-    );
+    use constant type => 'Header';
 
     1;
 
@@ -41,14 +35,17 @@ our $VERSION = '0.2';
 
 =head1 FIELDS
 
-Stanza fields are to be defined in the class method I<fields>. Typically this
-can be done like:
+Stanza fields are defined by lookup in the class L<Debian::Copyright::Format>.
+This is done by a combination of the format specification which is passed to
+the constructor as a second argument and the type which is defined in the package
+as a constant.
 
-    use constant fields => qw( Foo Bar Baz );
+=head2 fields
 
-Fields that are to contain dependency lists (as per L</is_dependency_list>
-method below) are automatically converted to instances of the
-L<Debian::Dependencies> class.
+The method C<fields> returns the available fields. If called on a fully
+instantiated Stanza object, it returns the possible fields for that type
+and format specification. Otherwise, for example if called as a class method,
+it returns all possible fields in an undefined order.
 
 =cut
 
@@ -81,7 +78,7 @@ use overload '""' => \&as_string;
 
 =head1 CONSTRUCTOR
 
-=head2 new( { field => value, ... } )
+=head2 new( { field => value, ... }, $f_spec )
 
 Creates a new L<Debian::Copyright::Stanza> object and optionally initialises it
 with the supplied data. The object is hashref based and tied to L<Tie::IxHash>.
@@ -89,8 +86,11 @@ with the supplied data. The object is hashref based and tied to L<Tie::IxHash>.
 You may use dashes for initial field names, but these will be converted to
 underscores:
 ;
-    my $s = Debian::Copyright::Stanza::Header( {Name => "Blah"} );
+    my $s = Debian::Copyright::Stanza::Header( {Name => "Blah"}, $f_spec );
     print $s->Name;
+
+The $f_spec parameter is the URL of the format specification. It determines which
+fields are permitted by lookup in the L<Debain::Copyright::Format> module.
 
 =cut
 
