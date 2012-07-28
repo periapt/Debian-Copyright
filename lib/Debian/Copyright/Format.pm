@@ -25,7 +25,7 @@ use constant {
     SPECIFICATION => {
         'http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/' => {
             Header => [
-                'Format_Specification',
+                'Format',
                 'Upstream_Contact',
                 'Upstream_Name',
                 'Source',

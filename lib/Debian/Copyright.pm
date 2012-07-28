@@ -55,6 +55,7 @@ L<Debian::Copyright::Stanza::License> class.
 
 package Debian::Copyright;
 use base 'Class::Accessor';
+use Debian::Copyright::Format;
 use strict;
 use Carp;
 
@@ -115,21 +116,31 @@ sub read {
         $parser_method = 'parse_mem';
     }
 
-    my $f_spec = $self->header
-               ? $self->header->Format_Specification
-               : undef;
-
     my $stanzas = $self->_parser->$parser_method( $file,
         { useTieIxHash => 1, verbMultiLine => 1 } );
 
-    if ($stanzas->[0]->{'Format-Specification'} and not $f_spec) {
+    my $f_spec_name = undef;
+    foreach my $candidate (qw(Format Format-Specification)) {
+        if (exists $stanzas->[0]->{$candidate}) {
+            $f_spec_name = $candidate;
+            $f_spec_name =~ s/-/_/g;
+            last;
+        }
+    }
+    croak "could not determine format for $file" if not $f_spec_name;
+
+    my $f_spec = $self->header
+               ? $self->header->$f_spec_name
+               : undef;
+
+    if ($stanzas->[0]->{$f_spec_name} and not $f_spec) {
         my $header = shift @$stanzas;
-        $f_spec = $header->{'Format-Specification'};
+        $f_spec = $header->{$f_spec_name};
         $self->header( Debian::Copyright::Stanza::Header->new($header, $f_spec) );
     }
 
     for (@$stanzas) {  
-        next if $_->{'Format-Specification'};
+        next if $_->{$f_spec_name};
         if ( $_->{Files} ) {
             $self->files->Push(
                 $_->{Files} => Debian::Copyright::Stanza::Files->new($_, $f_spec) );
@@ -147,7 +158,7 @@ sub read {
                 $license => Debian::Copyright::Stanza::License->new($_, $f_spec) );
             next;
         }
-        die "Got copyright stanza with unrecognised field\n";
+        die "Got copyright stanza with unrecognised field: ".(join ',', keys %$_);
     }
     return;
 }
