@@ -27,15 +27,21 @@ replaced with underscores.
 
 =over
 
-=item Format_Specification
+=item Format
 
-=item Name
+=item Upstream_Name
 
-=item X_Comment
+=item Comment
 
-=item Maintainer
+=item Upstream_Contact
 
 =item Source
+
+=item Disclaimer
+
+=item License
+
+=item Copyright
 
 =back
 
@@ -46,7 +52,14 @@ use strict;
 use warnings;
 use base qw(Debian::Copyright::Stanza);
 use constant fields => qw (
-    Format_Specification Maintainer Source Name X_Comment
+    Format
+    Upstream_Name
+    Upstream_Contact
+    Source
+    Disclaimer
+    Comment
+    License
+    Copyright
 );
 
 our $VERSION = '0.2';

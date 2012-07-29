@@ -33,7 +33,7 @@ replaced with underscores.
 
 =item Copyright
 
-=item X_Comment
+=item Comment
 
 =back
 
@@ -44,7 +44,7 @@ use strict;
 use warnings;
 use base qw(Debian::Copyright::Stanza);
 use constant fields => qw (
-    Files Copyright License X_Comment
+    Files Copyright License Comment
 );
 
 our $VERSION = '0.2';

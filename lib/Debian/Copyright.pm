@@ -116,17 +116,21 @@ sub read {
     my $stanzas = $self->_parser->$parser_method( $file,
         { useTieIxHash => 1, verbMultiLine => 1 } );
 
-    for (@$stanzas) {
-        if ( $_->{'Format-Specification'}) {
-            if (! $self->header) {
-                $self->header( Debian::Copyright::Stanza::Header->new($_) );
-            }
+    if (exists $stanzas->[0]->{Format}) {
+        my $header = shift @$stanzas;
+        if (! $self->header) {
+             $self->header( Debian::Copyright::Stanza::Header->new($header) );
         }
-        elsif ( $_->{Files} ) {
+    }
+
+    for (@$stanzas) {
+        next if $_->{Format};
+        if ( $_->{Files} ) {
             $self->files->Push(
                 $_->{Files} => Debian::Copyright::Stanza::Files->new($_) );
+            next;
         }
-        elsif ( $_->{License} ) {
+        if ( $_->{License} ) {
             my $license = $_->{License};
             if ($license =~ m{\A([^\n]+)$}xms) {
                 $license = $1;
@@ -136,10 +140,9 @@ sub read {
             }
             $self->licenses->Push(
                 $license => Debian::Copyright::Stanza::License->new($_) );
+            next;
         }
-        else {
-            die "Got copyright stanza with unrecognised field\n";
-        }
+        die "Got copyright stanza with unrecognised field\n";
     }
     return;
 }
@@ -183,10 +186,11 @@ sub write {
 =over
 
 =item This module is written with one particular version of
-L<DEP-5|http://anonscm.debian.org/viewvc/dep/web/deps/dep5.mdwn?view=markup&pathrev=135>
-in mind. When required it should be easy to add support for extra versions,
-but at the moment the supported version is the one generally used in the
-Debian Perl Group.
+L<DEP-5|http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/>
+in mind. Furthermore version 0.1 of this software was for a draft
+version the standard. The changes in going from draft to standard
+were such that it was not worth attempting to maintain backwards
+compatibility.
 
 =item Test coverage is not yet complete.
 

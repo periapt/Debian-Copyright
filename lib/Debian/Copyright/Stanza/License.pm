@@ -29,6 +29,8 @@ replaced with underscores.
 
 =item License
 
+=item Comment
+
 =back
 
 =cut
@@ -38,7 +40,7 @@ use strict;
 use warnings;
 use base qw(Debian::Copyright::Stanza);
 use constant fields => qw (
-    X_Comment License 
+    License Comment 
 );
 
 our $VERSION = '0.2';
