@@ -1,4 +1,4 @@
-use Test::More tests => 12;
+use Test::More tests => 16;
 use Debian::Copyright;
 use Test::Deep;
 use Test::LongString;
@@ -141,4 +141,7 @@ is($copyright->licenses->Keys(0), 'GPL-2', 'GPL-2');
 is($copyright->licenses->Keys(1), 'GPL-2+', 'GPL-2+');
 is($copyright->licenses->Keys(2), 'LGPL', 'LGPL');
 is($copyright->licenses->Keys(3), 'BSD (3 clause)', 'BSD (3 clause)');
-
+like_string($copyright->licenses->Values(0), qr/GNU\s+General\s+Public\s+License\s+version\s+2/xms, 'GPL-2');
+like_string($copyright->licenses->Values(1), qr/GNU\s+General\s+Public\s+License\s+version\s+2/xms, 'GPL-2+');
+like_string($copyright->licenses->Values(2), qr/GNU\s+Library\s+General\s+Public\s+License\s+version\s+2/xms, 'LGPL');
+like_string($copyright->licenses->Values(3), qr/THIS\s+SOFTWARE\s+IS\s+PROVIDED\s+BY\s+THE\s+REGENTS\s+AND\s+CONTRIBUTORS/xms, 'BSD');
