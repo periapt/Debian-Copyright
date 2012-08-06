@@ -1,7 +1,7 @@
-Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=136
-Maintainer: Nicholas Bamber <nicholas@periapt.co.uk>
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Contact: Nicholas Bamber <nicholas@periapt.co.uk>
+Upstream-Name: pkg-components
 Source: http://github.com/periapt/pkg-components
-Name: pkg-components
 X-Comment: This is a test.
 
 Files: test/*

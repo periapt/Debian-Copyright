@@ -29,6 +29,8 @@ replaced with underscores.
 
 =item License
 
+=item Comment
+
 =back
 
 =cut
@@ -37,7 +39,9 @@ package Debian::Copyright::Stanza::License;
 use strict;
 use warnings;
 use base qw(Debian::Copyright::Stanza);
-use constant type => 'License';
+use constant fields => qw (
+    License Comment 
+);
 
 our $VERSION = '0.2';
 

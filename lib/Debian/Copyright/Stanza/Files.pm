@@ -33,7 +33,7 @@ replaced with underscores.
 
 =item Copyright
 
-=item X_Comment
+=item Comment
 
 =back
 
@@ -43,7 +43,9 @@ package Debian::Copyright::Stanza::Files;
 use strict;
 use warnings;
 use base qw(Debian::Copyright::Stanza);
-use constant type => 'Files';
+use constant fields => qw (
+    Files Copyright License Comment
+);
 
 our $VERSION = '0.2';
 

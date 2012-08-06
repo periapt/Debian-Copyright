@@ -2,7 +2,6 @@ Build.PL
 Changes
 ignore.txt
 lib/Debian/Copyright.pm
-lib/Debian/Copyright/Format.pm
 lib/Debian/Copyright/Stanza.pm
 lib/Debian/Copyright/Stanza/Files.pm
 lib/Debian/Copyright/Stanza/Header.pm

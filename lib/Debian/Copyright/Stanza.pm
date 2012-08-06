@@ -10,7 +10,13 @@ This document describes Debian::Copyright::Stanza version 0.2 .
 
     package Header;
     use base 'Debian::Copyright::Stanza';
-    use constant type => 'Header';
+    use constant fields => qw(
+        Format_Specification
+        Name
+        Source
+        Maintainer
+        X_Comment
+    );
 
     1;
 
@@ -29,68 +35,44 @@ use strict;
 use base qw( Class::Accessor Tie::IxHash );
 use Carp qw(croak);
 use Debian::Copyright::Stanza::OrSeparated;
-use Debian::Copyright::Format;
 
 our $VERSION = '0.2';
 
 =head1 FIELDS
 
-Stanza fields are defined by lookup in the class L<Debian::Copyright::Format>.
-This is done by a combination of the format specification which is passed to
-the constructor as a second argument and the type which is defined in the package
-as a constant.
+Stanza fields are to be defined in the class method I<fields>. Typically this
+can be done like:
 
-=head2 fields
+    use constant fields => qw( Foo Bar Baz );
 
-The method C<fields> returns the available fields. If called on a fully
-instantiated Stanza object, it returns the possible fields for that type
-and format specification. Otherwise, for example if called as a class method,
-it returns all possible fields in an undefined order.
+Fields that are to contain dependency lists (as per L</is_dependency_list>
+method below) are automatically converted to instances of the
+L<Debian::Dependencies> class.
 
 =cut
 
-use constant type => undef;
-
-sub fields {
-    my $class = my $self = shift;
-    if (ref $self) {
-        $class = ref $self;
-    }
-    my $type = (reverse split '::', $class)[0];
-
-    if (ref $self and $self->_f_spec) {
-        return @{SPECIFICATION()->{$self->_f_spec}->{$type}};
-    }
-    my %fields = ();
-    foreach my $spec (keys %{SPECIFICATION()}) {
-        %fields = (%fields, map {$_=>1} @{SPECIFICATION()->{$spec}->{$type}});
-    }
-    return keys %fields;
-}
+use constant fields => ();
 
 sub import {
     my( $class ) = @_;
 
-    $class->mk_accessors( '_f_spec', $class->fields );
+    $class->mk_accessors( $class->fields );
 }
 
 use overload '""' => \&as_string;
 
 =head1 CONSTRUCTOR
 
-=head2 new( { field => value, ... }, $f_spec )
+=head2 new( { field => value, ... } )
 
 Creates a new L<Debian::Copyright::Stanza> object and optionally initialises it
 with the supplied data. The object is hashref based and tied to L<Tie::IxHash>.
 
 You may use dashes for initial field names, but these will be converted to
 underscores:
-;
-    my $s = Debian::Copyright::Stanza::Header( {Name => "Blah"}, $f_spec );
-    print $s->Name;
 
-The $f_spec parameter is the URL of the format specification. It determines which
-fields are permitted by lookup in the L<Debain::Copyright::Format> module.
+    my $s = Debian::Copyright::Stanza::Header( {Name => "Blah"} );
+    print $s->Name;
 
 =cut
 
@@ -102,13 +84,10 @@ sub new {
 
     bless $self, $class;
 
-    my $f_spec = shift || croak "No Format-Specification";
-    $self->_f_spec($f_spec);
-
     while( my($k,$v) = each %$init ) {
         $k =~ s/-/_/g;
-        croak "Invalid field given ($k)" if not $self->can($k);
-        croak "$k not valid for $f_spec" if not grep {$k} $self->fields;
+        $self->can($k)
+            or croak "Invalid field given ($k)";
         if ( $self->is_or_separated($k) ) {
             $self->$k( Debian::Copyright::Stanza::OrSeparated->new( $v ) );
         }
@@ -179,9 +158,12 @@ sub as_string
     $width //= 80;
 
     my @lines;
-    my @fields = map{ ( my $s = $_ ) =~ s/_/-/g; $s } $self->fields;
 
-    for my $k ( @fields ) {
+    $self->Reorder( map{ ( my $s = $_ ) =~ s/_/-/g; $s } $self->fields );
+
+    for my $k ( $self->Keys ) {
+        # We don't' want the internal fields showing in the output
+        next if $k =~ /^-/;     # _ in field names is replaced with dashes
         my $v = $self->FETCH($k);
         next unless defined($v);
 
@@ -194,7 +176,7 @@ sub as_string
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright (C) 2011-12 Nicholas Bamber <nicholas@periapt.co.uk>
+Copyright (C) 2011 Nicholas Bamber <nicholas@periapt.co.uk>
 
 This module is substantially based upon L<Debian::Control::Stanza>.
 Copyright (C) 2009 Damyan Ivanov L<dmn@debian.org> [Portions]

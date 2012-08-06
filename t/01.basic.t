@@ -11,7 +11,7 @@ use Test::Exception;
 my $copyright = Debian::Copyright->new;
 isa_ok($copyright, 'Debian::Copyright');
 $copyright->read('t/data/copyright');
-like($copyright->header, qr{\AFormat-Specification:\s}xms, 'Header stanza');
+like($copyright->header, qr{\AFormat:\s}xms, 'Header stanza');
 is($copyright->files->Length, 2, 'files length');
 is($copyright->files->Keys(0), '*', 'key files(0)');
 is($copyright->files->Values(0)->Files, '*', 'files(0)->Files');

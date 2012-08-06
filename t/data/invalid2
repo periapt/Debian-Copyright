@@ -1,7 +1,7 @@
-Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
-Maintainer: Nicholas Bamber <nicholas@periapt.co.uk>
+Format: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
+Upstream-Contact: Nicholas Bamber <nicholas@periapt.co.uk>
 Source: http://github.com/periapt/pkg-components
-Name: pkg-components
+Upstream-Name: pkg-components
 
 Blah: *
 Blah2: 
