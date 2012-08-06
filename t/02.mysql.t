@@ -1,4 +1,4 @@
-use Test::More tests => 8;
+use Test::More tests => 12;
 use Debian::Copyright;
 use Test::Deep;
 use Test::LongString;
@@ -135,6 +135,10 @@ EOS
 chomp $s;
 is_string($copyright->header->Comment, "\n$s", 'Comment');
 
-cmp_deeply($copyright->files->Length, 42, 'no of files');
-cmp_deeply($copyright->licenses->Length, 4, 'no of licenses');
+is($copyright->files->Length, 42, 'no of files');
+is($copyright->licenses->Length, 4, 'no of licenses');
+is($copyright->licenses->Keys(0), 'GPL-2', 'GPL-2');
+is($copyright->licenses->Keys(1), 'GPL-2+', 'GPL-2+');
+is($copyright->licenses->Keys(2), 'LGPL', 'LGPL');
+is($copyright->licenses->Keys(3), 'BSD (3 clause)', 'BSD (3 clause)');
 
