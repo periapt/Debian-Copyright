@@ -1,6 +1,7 @@
 Revision history for Debian-Copyright
 
 0.2    23-07-2012
+        Added some real life copyright tests from mysql
         Used comments from Charles Plessy, Closes: #70544
         Worked through some of the missing test coverage
         Updated copyright notices

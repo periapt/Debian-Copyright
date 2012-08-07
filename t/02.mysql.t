@@ -1,4 +1,4 @@
-use Test::More tests => 16;
+use Test::More tests => 58;
 use Debian::Copyright;
 use Test::Deep;
 use Test::LongString;
@@ -136,6 +136,52 @@ chomp $s;
 is_string($copyright->header->Comment, "\n$s", 'Comment');
 
 is($copyright->files->Length, 42, 'no of files');
+TODO: {
+    local $TODO = "tests not fixed yet";
+
+is($copyright->files->Keys(0), 'cmd-line-utils/libedit/config.h');
+is($copyright->files->Keys(1), 'BUILD/*');
+is($copyright->files->Keys(2), 'storage/innobase/*');
+is($copyright->files->Keys(3), 'cmd-line-utils/readline/*');
+is($copyright->files->Keys(4), 'cmd-line-utils/libedit/*');
+is($copyright->files->Keys(5), 'cmd-line-utils/libedit/filecomplete.c');
+is($copyright->files->Keys(6), 'client/completion_hash.h');
+is($copyright->files->Keys(7), 'storage/archive/azio.c');
+is($copyright->files->Keys(8), 'sql-bench/innotest1.sh');
+is($copyright->files->Keys(9), 'storage/innobase/btr/btr0sea.c');
+is($copyright->files->Keys(10), 'storage/innobase/btr/btr0cur.c');
+is($copyright->files->Keys(11), 'storage/myisam/rt_index.h');
+is($copyright->files->Keys(12), 'storage/innobase/include/ut0bh.h');
+is($copyright->files->Keys(13), 'plugin/semisync/semisync.cc');
+is($copyright->files->Keys(14), 'strings/ctype-bin.c');
+is($copyright->files->Keys(15), 'scripts/mysqld_safe.sh');
+is($copyright->files->Keys(16), 'sql/sql_yacc.cc');
+is($copyright->files->Keys(17), 'storage/innobase/include/pars0grm.h');
+is($copyright->files->Keys(18), 'storage/innobase/include/srv0srv.h');
+is($copyright->files->Keys(19), 'plugin/semisync/semisync_master.cc');
+is($copyright->files->Keys(20), 'storage/innobase/include/os0file.h');
+is($copyright->files->Keys(21), 'include/t_ctype.h');
+is($copyright->files->Keys(22), 'cmd-line-utils/libedit/np/strlcat.c');
+is_string($copyright->files->Keys(23), "sql/nt_servc.cc\n sql/nt_servc.h\n");
+}
+is_string($copyright->files->Keys(24), "dbug/dbug.c\n dbug/dbug_long.h\n");
+is($copyright->files->Keys(25), 'cmd-line-utils/libedit/np/vis.c');
+is($copyright->files->Keys(26), 'scripts/dheadgen.pl');
+is($copyright->files->Keys(27), 'storage/ndb/test/src/getarg.c');
+is($copyright->files->Keys(28), 'storage/ndb/test/include/getarg.h');
+is($copyright->files->Keys(29), 'storage/innobase/handler/ha_innodb.cc');
+is($copyright->files->Keys(30), 'plugin/semisync/semisync_master.h');
+is($copyright->files->Keys(31), 'storage/innobase/srv/srv0srv.c');
+is($copyright->files->Keys(32), 'storage/innobase/ut/ut0rbt.c');
+is($copyright->files->Keys(33), 'strings/ctype-win1250ch.c');
+is($copyright->files->Keys(34), 'strings/ctype-tis620.c');
+is($copyright->files->Keys(35), 'storage/innobase/handler/ha_innodb.h');
+is($copyright->files->Keys(36), 'strings/dtoa.c');
+is($copyright->files->Keys(37), 'scripts/mysqldumpslow.sh');
+is($copyright->files->Keys(38), 'libmysqld/lib_sql.cc');
+is($copyright->files->Keys(39), 'tests/mail_to_db.pl');
+is($copyright->files->Keys(40), 'dbug/dbug_analyze.c');
+is($copyright->files->Keys(41), 'regex/regexp.c');
 is($copyright->licenses->Length, 4, 'no of licenses');
 is($copyright->licenses->Keys(0), 'GPL-2', 'GPL-2');
 is($copyright->licenses->Keys(1), 'GPL-2+', 'GPL-2+');
