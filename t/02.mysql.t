@@ -1,4 +1,4 @@
-use Test::More tests => 58;
+use Test::More tests => 61;
 use Debian::Copyright;
 use Test::Deep;
 use Test::LongString;
@@ -160,10 +160,10 @@ is($copyright->files->Keys(17), 'storage/innobase/include/pars0grm.h');
 is($copyright->files->Keys(18), 'storage/innobase/include/srv0srv.h');
 is($copyright->files->Keys(19), 'plugin/semisync/semisync_master.cc');
 is($copyright->files->Keys(20), 'storage/innobase/include/os0file.h');
-is($copyright->files->Keys(21), 'include/t_ctype.h');
-is($copyright->files->Keys(22), 'cmd-line-utils/libedit/np/strlcat.c');
-is_string($copyright->files->Keys(23), "sql/nt_servc.cc\n sql/nt_servc.h\n");
+is_string($copyright->files->Keys(21), "include/t_ctype.h\n strings/t_ctype.h\n");
 }
+is_string($copyright->files->Keys(22), "cmd-line-utils/libedit/np/strlcat.c\n cmd-line-utils/libedit/np/strlcpy.c\n");
+is_string($copyright->files->Keys(23), "sql/nt_servc.cc\n sql/nt_servc.h\n");
 is_string($copyright->files->Keys(24), "dbug/dbug.c\n dbug/dbug_long.h\n");
 is($copyright->files->Keys(25), 'cmd-line-utils/libedit/np/vis.c');
 is($copyright->files->Keys(26), 'scripts/dheadgen.pl');
@@ -181,6 +181,12 @@ is($copyright->files->Keys(37), 'scripts/mysqldumpslow.sh');
 is($copyright->files->Keys(38), 'libmysqld/lib_sql.cc');
 is($copyright->files->Keys(39), 'tests/mail_to_db.pl');
 is($copyright->files->Keys(40), 'dbug/dbug_analyze.c');
+is($copyright->files->Values(40)->Files, 'dbug/dbug_analyze.c');
+is($copyright->files->Values(40)->Copyright, '1987 June Binayak Banerjee');
+TODO: {
+    local $TODO = 'This bug needs fixing urgently';
+is($copyright->files->Values(40)->License, 'dbug/dbug_analyze.c');
+}
 is($copyright->files->Keys(41), 'regex/regexp.c');
 is($copyright->licenses->Length, 4, 'no of licenses');
 is($copyright->licenses->Keys(0), 'GPL-2', 'GPL-2');
