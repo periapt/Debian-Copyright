@@ -14,6 +14,7 @@ my $builder = Module::Build->new(
         'Test::LongString' => 0,
         'Test::Exception' => 0,
         'Test::Deep' => 0,
+        'Test::NoWarnings' => 0,
     },
     configure_requires => { 'Module::Build' => 0.38 },
     requires => {

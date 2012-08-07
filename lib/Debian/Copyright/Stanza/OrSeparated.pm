@@ -32,7 +32,8 @@ This document describes Debian::Copyright::Stanza::OrSeparated version 0.2 .
 =head1 DESCRIPTION
 
 Debian::Copyright::Stanza::OrSeparated abstracts handling of the License
-fields in Files blocks, which are lists separated by 'or'.
+fields in Files blocks, which are lists separated by 'or'. It also supports
+a body field representing the optional extended description of a License field.
 
 =head1 CONSTRUCTOR
 
@@ -45,11 +46,23 @@ C<quotewords> routine.
 =cut
 
 sub new {
-    my $self = bless [], shift;
+    my $self = bless {list=>[],body=>""}, shift;
 
-    tie @$self, 'Array::Unique';
+    tie @{$self->{list}}, 'Array::Unique';
 
-    $self->add(@_) if @_;
+    my $body = exists $self->{body} ? $self->{body} : "";
+    my @list = ();
+    foreach my $e (@_) {
+        if ($e =~ m{\A([^\n]+)\n(.+)\z}xms) {
+            push @list, $1;
+            $body .= $2;
+        }
+        else {
+            push @list, $e;
+        }
+    }
+    $self->add(@list) if @list;
+    $self->{body} = $body if $body;
 
     $self;
 }
@@ -66,7 +79,9 @@ operation.
 
 sub as_string
 {
-    return join( ' or ', @{ $_[0] } );
+    my $self = shift;
+    my $body = exists $self->{body} ? "\n$self->{body}" : "";
+    return join( ' or ', @{ $self->{list} } ).$body;
 }
 
 =head2 equals
@@ -104,7 +119,7 @@ keeping the list unique.
 sub add {
     my ( $self, @items) = @_;
 
-    push @$self, $self->_parse(@items);
+    push @{$self->{list}}, $self->_parse(@items);
 }
 
 =head2 sort
@@ -116,7 +131,7 @@ A handy method for sorting the list.
 sub sort {
     my $self = shift;
 
-    @$self = sort @$self;
+    @{$self->{list}} = sort @{$self->{list}};
 }
 
 =head1 COPYRIGHT & LICENSE

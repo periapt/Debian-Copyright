@@ -1,7 +1,8 @@
-use Test::More tests => 61;
+use Test::More tests => 62;
 use Debian::Copyright;
 use Test::Deep;
 use Test::LongString;
+use Test::NoWarnings;
 
 my $copyright = Debian::Copyright->new;
 isa_ok($copyright, 'Debian::Copyright');
@@ -141,9 +142,14 @@ TODO: {
 
 is($copyright->files->Keys(0), 'cmd-line-utils/libedit/config.h');
 is($copyright->files->Keys(1), 'BUILD/*');
+}
 is($copyright->files->Keys(2), 'storage/innobase/*');
 is($copyright->files->Keys(3), 'cmd-line-utils/readline/*');
 is($copyright->files->Keys(4), 'cmd-line-utils/libedit/*');
+
+TODO: {
+    local $TODO = "tests not fixed yet";
+
 is($copyright->files->Keys(5), 'cmd-line-utils/libedit/filecomplete.c');
 is($copyright->files->Keys(6), 'client/completion_hash.h');
 is($copyright->files->Keys(7), 'storage/archive/azio.c');
@@ -183,10 +189,7 @@ is($copyright->files->Keys(39), 'tests/mail_to_db.pl');
 is($copyright->files->Keys(40), 'dbug/dbug_analyze.c');
 is($copyright->files->Values(40)->Files, 'dbug/dbug_analyze.c');
 is($copyright->files->Values(40)->Copyright, '1987 June Binayak Banerjee');
-TODO: {
-    local $TODO = 'This bug needs fixing urgently';
-is($copyright->files->Values(40)->License, 'dbug/dbug_analyze.c');
-}
+is_string($copyright->files->Values(40)->License, "public-domain\n This program may be freely distributed under the same terms and\n conditions as Fred Fish's Dbug package.");
 is($copyright->files->Keys(41), 'regex/regexp.c');
 is($copyright->licenses->Length, 4, 'no of licenses');
 is($copyright->licenses->Keys(0), 'GPL-2', 'GPL-2');
