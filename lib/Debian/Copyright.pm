@@ -52,6 +52,7 @@ L<Debian::Copyright::Stanza::License> class.
 =cut
 
 package Debian::Copyright;
+require v5.10.1;
 use base 'Class::Accessor';
 use strict;
 use Carp;

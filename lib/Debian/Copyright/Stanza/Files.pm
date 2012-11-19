@@ -40,6 +40,7 @@ replaced with underscores.
 =cut
 
 package Debian::Copyright::Stanza::Files;
+require v5.10.1;
 use strict;
 use warnings;
 use base qw(Debian::Copyright::Stanza);

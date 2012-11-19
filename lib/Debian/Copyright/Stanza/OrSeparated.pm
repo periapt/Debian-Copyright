@@ -1,4 +1,5 @@
 package Debian::Copyright::Stanza::OrSeparated;
+require v5.10.1;
 use strict;
 use warnings;
 

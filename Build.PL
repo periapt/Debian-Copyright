@@ -23,6 +23,7 @@ my $builder = Module::Build->new(
         'Tie::IxHash' => 0,
         'Array::Unique' => 0,
         'Class::Accessor'=> 0,
+        perl=>'5.10.1',
     },
     add_to_cleanup      => [ 'Debian-Copyright-*' ],
     create_makefile_pl => 'traditional',

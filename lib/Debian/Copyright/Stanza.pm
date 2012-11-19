@@ -30,7 +30,7 @@ L<Debian::Copyright::Stanza::License> classes.
 
 package Debian::Copyright::Stanza;
 
-require v5.10.0;
+require v5.10.1;
 use strict;
 use base qw( Class::Accessor Tie::IxHash );
 use Carp qw(croak);

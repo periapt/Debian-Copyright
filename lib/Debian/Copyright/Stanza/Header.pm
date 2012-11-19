@@ -48,6 +48,7 @@ replaced with underscores.
 =cut
 
 package Debian::Copyright::Stanza::Header;
+require v5.10.1;
 use strict;
 use warnings;
 use base qw(Debian::Copyright::Stanza);
