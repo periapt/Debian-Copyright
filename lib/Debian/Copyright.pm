@@ -196,6 +196,10 @@ compatibility.
 
 =back
 
+=head1 INCOMPATIBILITIES
+
+This version is not backwards compatible with version 0.1.
+
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to Charles Plessy for various comments regarding the documentation.
