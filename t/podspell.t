@@ -1,6 +1,5 @@
 use strict;
 use warnings;
-use English qw(-no_match_vars);
 use Test::More;
 
 if ( not $ENV{TEST_AUTHOR} ) {
@@ -10,7 +9,7 @@ if ( not $ENV{TEST_AUTHOR} ) {
 
 eval { require Test::Spelling; };
 
-if ( $EVAL_ERROR ) {
+if ( $@) {
    my $msg = 'Test::Spelling required to criticise code';
    plan( skip_all => $msg );
 }
