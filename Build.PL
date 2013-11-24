@@ -31,7 +31,7 @@ my $builder = Module::Build->new(
     meta_merge => {
         resources => {
             repository =>
-'http://github.com/periapt/Debian-Copyright/tree',
+'http://github.com/periapt/Debian-Copyright',
         },
     },
 );
